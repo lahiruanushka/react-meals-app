@@ -1,21 +1,20 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Search from "./components/Search";
 import Favorites from "./components/Favorites";
 import Meals from "./components/Meals";
 import Modal from "./components/Modal";
+import { useGlobalContext } from "./context";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { showModal, favouritesMeals } = useGlobalContext();
 
   return (
     <main>
       <Search />
       <Favorites />
       <Meals />
-      <Modal />
+      {showModal && <Modal />}
     </main>
   );
 }

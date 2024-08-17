@@ -1,21 +1,30 @@
 import { useState } from "react";
 import "./App.css";
-import Search from "./components/Search";
-import Favorites from "./components/Favorites";
-import Meals from "./components/Meals";
-import Modal from "./components/Modal";
 import { useGlobalContext } from "./context";
+import { AppProvider } from "./context";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/HomePage";
+import MainLayout from "./layouts/MainLayout";
+import Meals from "./pages/MealsPage";
+import FavoritesPage from "./pages/FavoritesPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import MealPage from "./pages/MealDetailsPage";
 
 function App() {
-  const { showModal, favouritesMeals } = useGlobalContext();
-
   return (
-    <main>
-      <Search />
-      <Favorites />
-      <Meals />
-      {showModal && <Modal />}
-    </main>
+    <AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="meals" element={<Meals />} />
+            <Route path="meals/:id" element={<MealPage />} />
+            <Route path="favorites" element={<FavoritesPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AppProvider>
   );
 }
 

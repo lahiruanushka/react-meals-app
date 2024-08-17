@@ -2,10 +2,9 @@ import React from "react";
 import { useGlobalContext } from "../context";
 import { AiFillHeart } from "react-icons/ai";
 
-const Favorites = () => {
+const FavoritesPage = () => {
   const { favouritesMeals, selectMeal, removeFromFavorites } =
     useGlobalContext();
-
   if (favouritesMeals.length === 0) {
     return (
       <div className="text-center mt-10">
@@ -13,7 +12,6 @@ const Favorites = () => {
       </div>
     );
   }
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Favorites</h1>
@@ -27,7 +25,7 @@ const Favorites = () => {
               src={meal.strMealThumb}
               alt={meal.strMeal}
               className="w-full h-full object-cover rounded-lg"
-              onClick={() => selectMeal(meal.idMeal,true)}
+              onClick={() => selectMeal(meal.idMeal, true)}
             />
             <button
               className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors duration-300"
@@ -42,4 +40,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default FavoritesPage;

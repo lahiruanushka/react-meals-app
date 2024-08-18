@@ -1,23 +1,22 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AppContext = createContext();
 
-const API_BASE_URL = "https://www.themealdb.com/api/json/v1/1";
-const SEARCH_MEAL_URL = `${API_BASE_URL}/search.php?s=`;
-const SEARCH_MEAL_BY_LETTER_URL = `${API_BASE_URL}/search.php?f=`;
-const LOOKUP_MEAL_URL = `${API_BASE_URL}/lookup.php?i=`;
-const RANDOM_MEAL_URL = `${API_BASE_URL}/random.php`;
-const RANDOM_SELECTION_URL = `${API_BASE_URL}/randomselection.php`;
-const CATEGORIES_URL = `${API_BASE_URL}/categories.php`;
-const LATEST_MEALS_URL = `${API_BASE_URL}/latest.php`;
-const LIST_URL = `${API_BASE_URL}/list.php`;
-const FILTER_BY_INGREDIENT_URL = `${API_BASE_URL}/filter.php?i=`;
-const FILTER_BY_CATEGORY_URL = `${API_BASE_URL}/filter.php?c=`;
-const FILTER_BY_AREA_URL = `${API_BASE_URL}/filter.php?a=`;
+const SEARCH_MEAL_URL = `${import.meta.env.VITE_API_BASE_URL}/search.php?s=`;
+const SEARCH_MEAL_BY_LETTER_URL = `${import.meta.env.VITE_API_BASE_URL}/search.php?f=`;
+const LOOKUP_MEAL_URL = `${import.meta.env.VITE_API_BASE_URL}/lookup.php?i=`;
+const RANDOM_MEAL_URL = `${import.meta.env.VITE_API_BASE_URL}/random.php`;
+const RANDOM_SELECTION_URL = `${import.meta.env.VITE_API_BASE_URL}/randomselection.php`;
+const CATEGORIES_URL = `${import.meta.env.VITE_API_BASE_URL}/categories.php`;
+const LATEST_MEALS_URL = `${import.meta.env.VITE_API_BASE_URL}/latest.php`;
+const LIST_URL = `${import.meta.env.VITE_API_BASE_URL}/list.php`;
+const FILTER_BY_INGREDIENT_URL = `${import.meta.env.VITE_API_BASE_URL}/filter.php?i=`;
+const FILTER_BY_CATEGORY_URL = `${import.meta.env.VITE_API_BASE_URL}/filter.php?c=`;
+const FILTER_BY_AREA_URL = `${import.meta.env.VITE_API_BASE_URL}/filter.php?a=`;
 
 const AppProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [meals, setMeals] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -64,10 +63,13 @@ const AppProvider = ({ children }) => {
 
   const fetchCategories = async () => {
     try {
+      setLoading(true)
       const { data } = await axios(CATEGORIES_URL);
       setCategories(data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -80,20 +82,6 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  const fetchListData = async () => {
-    try {
-      const [categoriesRes, areasRes, ingredientsRes] = await Promise.all([
-        axios(`${LIST_URL}?c=list`),
-        axios(`${LIST_URL}?a=list`),
-        axios(`${LIST_URL}?i=list`)
-      ]);
-      setCategories(categoriesRes.data.categories);
-      setAreas(areasRes.data.areas);
-      setIngredients(ingredientsRes.data.ingredients);
-    } catch (error) {
-      console.error("Error fetching list data:", error);
-    }
-  };
 
   const filterMealsByIngredient = (ingredient) => {
     fetchMeals(`${FILTER_BY_INGREDIENT_URL}${ingredient}`);
@@ -148,7 +136,6 @@ const AppProvider = ({ children }) => {
         fetchRandomSelection,
         fetchCategories,
         fetchLatestMeals,
-        fetchListData,
         filterMealsByIngredient,
         filterMealsByCategory,
         filterMealsByArea,

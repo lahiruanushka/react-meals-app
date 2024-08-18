@@ -9,6 +9,8 @@ import Meals from "./pages/MealsPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MealPage from "./pages/MealDetailsPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import Ingredients from "./pages/Ingredients";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="meals" element={<Meals />} />
             <Route path="meals/:id" element={<MealPage />} />
             <Route path="favorites" element={<FavoritesPage />} />
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="ingredients" element={<Ingredients />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

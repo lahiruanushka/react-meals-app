@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGlobalContext } from "../context";
 import { AiOutlineSearch } from "react-icons/ai";
 
 const SearchBar = () => {
-  const { setSearchTerm } = useGlobalContext();
+  const { setSearchTerm, searchTerm } = useGlobalContext();
   const [query, setQuery] = useState("");
 
-  const handleSearch = (event) => {
+  // Sync the input field with the searchTerm from the context
+  useEffect(() => {
+    setQuery(searchTerm || "");
+  }, [searchTerm]);
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setSearchTerm(query);
+    setSearchTerm(query); // Update the searchTerm in the context
   };
 
   return (
-    <form
-      onSubmit={handleSearch}
-      className="flex items-center mx-auto max-w-md"
-    >
+    <form className="flex items-center mx-auto max-w-md" onSubmit={handleSubmit}>
       <input
         type="text"
         value={query}

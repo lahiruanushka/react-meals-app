@@ -1,18 +1,20 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import {
   Dialog,
   DialogPanel,
   Disclosure,
   DisclosureButton,
-} from '@headlessui/react';
+} from "@headlessui/react";
 import {
   Bars3Icon,
   XMarkIcon,
   HomeIcon,
   BookmarkIcon,
   ChevronDownIcon,
-} from '@heroicons/react/24/outline';
+  ListBulletIcon,
+  ClipboardDocumentListIcon,
+} from "@heroicons/react/24/outline";
 
 import logo from "../assets/images/cutlery.png";
 
@@ -24,12 +26,9 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="flex items-center space-x-2">
-            <img
-              alt="Logo"
-              src={logo}
-              className="h-8 w-auto"
-            />
-            <span className="sr-only">React Meals App</span>
+            <img alt="Logo" src={logo} className="h-8 w-auto" />
+            {/* Display the app name next to the logo */}
+            <span className="text-xl font-bold text-gray-900">Meals App</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -43,13 +42,33 @@ export default function Navbar() {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          <Link to="/" className="flex items-center text-sm font-semibold text-gray-900">
+          <Link
+            to="/"
+            className="flex items-center text-sm font-semibold text-gray-900"
+          >
             <HomeIcon className="h-5 w-5 mr-1" aria-hidden="true" />
             Home
           </Link>
-          <Link to="/favorites" className="flex items-center text-sm font-semibold text-gray-900">
+          <Link
+            to="/favorites"
+            className="flex items-center text-sm font-semibold text-gray-900"
+          >
             <BookmarkIcon className="h-5 w-5 mr-1" aria-hidden="true" />
             Favorites
+          </Link>
+          <Link
+            to="/categories"
+            className="flex items-center text-sm font-semibold text-gray-900"
+          >
+            <ListBulletIcon className="h-5 w-5 mr-1" aria-hidden="true" />
+            Categories
+          </Link>
+          <Link
+            to="/ingredients"
+            className="flex items-center text-sm font-semibold text-gray-900"
+          >
+            <ClipboardDocumentListIcon className="h-5 w-5 mr-1" aria-hidden="true" />
+            Ingredients
           </Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -59,17 +78,17 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <Dialog open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} className="lg:hidden">
+      <Dialog
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        className="lg:hidden"
+      >
         <div className="fixed inset-0 bg-black/30" />
         <DialogPanel className="fixed inset-y-0 right-0 w-full max-w-sm bg-white px-6 py-6">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
-              <img
-                alt="Logo"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
-              />
-              <span className="sr-only">React Meals App</span>
+              <img alt="Logo" src={logo} className="h-8 w-auto" />
+              <span className="text-xl font-bold text-gray-900">Meals App</span>
             </Link>
             <button
               type="button"
@@ -85,9 +104,11 @@ export default function Navbar() {
               {({ open }) => (
                 <>
                   <DisclosureButton className="flex w-full items-center justify-between rounded-lg py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                    React Meals App
+                    Meals App
                     <ChevronDownIcon
-                      className={`h-5 w-5 transition-transform ${open ? 'rotate-180' : ''}`}
+                      className={`h-5 w-5 transition-transform ${
+                        open ? "rotate-180" : ""
+                      }`}
                       aria-hidden="true"
                     />
                   </DisclosureButton>
@@ -96,15 +117,41 @@ export default function Navbar() {
                       to="/"
                       className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                     >
-                      <HomeIcon className="inline h-5 w-5 mr-1" aria-hidden="true" />
+                      <HomeIcon
+                        className="inline h-5 w-5 mr-1"
+                        aria-hidden="true"
+                      />
                       Home
                     </Link>
                     <Link
                       to="/favorites"
                       className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                     >
-                      <BookmarkIcon className="inline h-5 w-5 mr-1" aria-hidden="true" />
+                      <BookmarkIcon
+                        className="inline h-5 w-5 mr-1"
+                        aria-hidden="true"
+                      />
                       Favorites
+                    </Link>
+                    <Link
+                      to="/categories"
+                      className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      <ListBulletIcon
+                        className="inline h-5 w-5 mr-1"
+                        aria-hidden="true"
+                      />
+                      Categories
+                    </Link>
+                    <Link
+                      to="/ingredients"
+                      className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      <ClipboardDocumentListIcon
+                        className="inline h-5 w-5 mr-1"
+                        aria-hidden="true"
+                      />
+                      Ingredients
                     </Link>
                   </Disclosure.Panel>
                 </>

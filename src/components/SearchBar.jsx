@@ -1,28 +1,15 @@
-import { useState, useEffect } from "react";
-import { useGlobalContext } from "../context";
 import { AiOutlineSearch } from "react-icons/ai";
 
-const SearchBar = () => {
-  const { setSearchTerm, searchTerm } = useGlobalContext();
-  const [query, setQuery] = useState("");
-
-  // Sync the input field with the searchTerm from the context
-  useEffect(() => {
-    setQuery(searchTerm || "");
-  }, [searchTerm]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSearchTerm(query); // Update the searchTerm in the context
+const SearchBar = ({ setSearchQuery }) => {
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
   };
-
   return (
-    <form className="flex items-center mx-auto max-w-md" onSubmit={handleSubmit}>
+    <div className="flex items-center mx-auto max-w-md">
       <input
         type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for a meal..."
+        placeholder="Search meals..."
+        onChange={handleInputChange}
         className="border rounded-lg px-4 py-2 w-full sm:w-80"
       />
       <button
@@ -31,7 +18,7 @@ const SearchBar = () => {
       >
         <AiOutlineSearch className="h-5 w-5" />
       </button>
-    </form>
+    </div>
   );
 };
 

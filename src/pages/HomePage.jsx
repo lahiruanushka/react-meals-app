@@ -1,10 +1,36 @@
-import { useGlobalContext } from "../context";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import MealList from "../components/MealList";
 import LoadingSpinner from "../components/LoadingSpinner";
+import apiService from "../services/apiService";
 
 const HomePage = () => {
-  const { meals, loading } = useGlobalContext();
+  const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const fetchMeals = async (query) => {
+    setLoading(true);
+    try {
+      const response = await apiService.searchMeal(query);
+      setMeals(response.data.meals || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery) {
+      fetchMeals(searchQuery);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    fetchMeals(searchQuery);
+  }, []);
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
@@ -19,12 +45,16 @@ const HomePage = () => {
         </div>
 
         <div className="mb-8">
-          <SearchBar />
+          <SearchBar setSearchQuery={setSearchQuery} />
         </div>
 
         {loading ? (
           <div className="flex justify-center items-center min-h-[300px]">
             <LoadingSpinner message="Loading meals..." />
+          </div>
+        ) : error ? (
+          <div className="text-red-600 text-center">
+            <p>{error}</p>
           </div>
         ) : (
           <MealList meals={meals} />
